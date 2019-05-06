@@ -1,0 +1,45 @@
+---
+title: "SVR Practice"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(e1071)
+```
+
+## Support Vector Regression
+
+```{r}
+dataset <- read_csv("/Users/joshupadhyay/Desktop/Machine Learning /Machine Learning A-Z Template Folder/Part 2 - Regression/Section 7 - Support Vector Regression (SVR)/SVR/Position_Salaries.csv")
+
+dataset <- dataset[2:3]
+
+```
+
+```{r}
+regressor = svm(Salary ~ ., 
+                data = dataset,
+                type = "eps-regression") 
+
+#specify if you're doing SVM (classification) or SVR (regression)
+
+#can also specify kernel, but gaussian kernel specified by default 
+
+```
+
+```{r}
+predict(regressor, data.frame(Level = 6.5))
+
+#this is asking for a given level of 6.5, what is the predicted salary?
+```
+
+
+```{r}
+ggplot(dataset) + 
+  geom_point(aes(x = Level, y = Salary)) + 
+  geom_line(aes(x = Level, y = predict(regressor, newdata = dataset)), color = 'turquoise') + ggtitle("SVR Predictions on Salary Data") #using predict function to make line in ggplot - good use!
+```
+
+
